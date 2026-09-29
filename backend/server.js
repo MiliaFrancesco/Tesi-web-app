@@ -2,7 +2,9 @@ const express = require('express')
 const Database = require('better-sqlite3')  
 const cors = require('cors')
 
+
 const app = express()
+
 
 const db = new Database('database.db')  
 /*CREAZIONE TABELLA*/
@@ -26,6 +28,22 @@ db.prepare(`
     role TEXT NOT NULL
   )
 `).run()
+
+
+const validCategories = [
+  'Da classificare',
+  'Licenze',
+  'Infrastrutture',
+  'Consulenze',
+  'Attività di formazione',
+  'Software',
+  'Hardware',
+  'Rete',
+  'Account',
+  'Accesso ai servizi',
+  'Altro'
+]
+
 
 // AGGIUNTA USER_ID ALLA TABELLA REQUESTS
 try {
@@ -66,12 +84,13 @@ const insertRequest = db.prepare(`
 
 
 app.use(cors())
-app.use(express.json())  
+app.use(express.json())  //permette a Express di leggere i dati JSON che arriveranno nelle richieste.
 
 
 app.get('/', (req, res) => {
   res.send('Il backend funziona.')
 })
+
 
 
 /* REGISTRAZIONE UTENTE */
@@ -174,7 +193,7 @@ app.post('/api/login', (req, res) => {
 
 
 /*1) REACT INVIA IL FORM (POST) E SI INSERISCONO I DATI NEL DATABASE*/
-app.post('/api/requests', (req, res) => {
+app.post('/api/requests',async (req, res) => {
   console.log('Dati ricevuti dal frontend:', req.body)
 
   const { title, description, user_id } = req.body
@@ -223,31 +242,103 @@ app.post('/api/requests', (req, res) => {
   })
 }
 
-  /* VALORI AUTOMATICI */
-  const status = 'Nuova'
-  const category = 'Da classificare'
-  
-  const result = insertRequest.run(
-    title,
-    description,
-    status,
-    category,
-    user_id
-  )
+/* VALORI AUTOMATICI */
+const status = 'Nuova'
 
-  const newRequest = {
-    id: result.lastInsertRowid,  //recupero l'ID appena generato
-    title,
-    description,
-    status,
-    category,
-    user_id
+/* CLASSIFICAZIONE CON LLM */
+const prompt = `
+Devi classificare una richiesta di servizio digitale.
+
+Titolo:
+${title}
+
+Descrizione:
+${description}
+
+Scegli una sola categoria tra queste:
+
+- Licenze
+- Infrastrutture
+- Consulenze
+- Attività di formazione
+- Software
+- Hardware
+- Rete
+- Account
+- Accesso ai servizi
+- Altro
+
+Rispondi solamente con il nome della categoria.
+Non aggiungere spiegazioni.
+`
+
+let category
+
+try {
+
+  const response = await fetch('http://localhost:11434/api/generate', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      model: 'llama3.2:3b',
+      prompt: prompt,
+      stream: false
+    })
+  })
+
+  if (!response.ok) {
+    return res.status(500).json({
+      error: 'Errore nella comunicazione con il modello LLM'
+    })
   }
 
-  console.log('Nuova richiesta salvata:', newRequest)
+  const data = await response.json()
 
-  res.json(newRequest)
+  category = data.response.trim()
+
+  category = category.replace('.', '')
+
+  if (!validCategories.includes(category)) {
+    category = 'Altro'
+  }
+
+  console.log('Categoria suggerita dall\'LLM:', category)
+
+} catch (error) {
+
+  console.error('Errore Ollama:', error)
+
+  return res.status(500).json({
+    error: 'Impossibile utilizzare il modello LLM'
+  })
+}
+
+/* SALVIAMO LA RICHIESTA NEL DATABASE */
+
+const result = insertRequest.run(
+  title,
+  description,
+  status,
+  category,
+  user_id
+)
+
+const newRequest = {
+  id: result.lastInsertRowid,
+  title,
+  description,
+  status,
+  category,
+  user_id
+}
+
+console.log('Nuova richiesta salvata:', newRequest)
+
+res.json(newRequest)
 })
+
 
 
 /*2) GET RITORNA TUTTE LE RICHIESTE PRESENTI IN TABELLA REQUESTS */
@@ -352,9 +443,9 @@ app.delete('/api/requests/:id', (req, res) => {
 })
 
 /*UPDATE STATO*/
-app.patch('/api/requests/:id', (req, res) => {  
-  const id = req.params.id  
-  const { status } = req.body  
+app.patch('/api/requests/:id', (req, res) => {  //Quando arriva una richiesta HTTP di tipo PATCH a /api/requests/qualcosa, esegui questa funzione
+  const id = req.params.id  //abbiamo recuperato l'ID della richiesta che vogliamo modificare.
+  const { status } = req.body  //recuperiamo il dato che React ci manda nel corpo della richiesta.
 
   const validStatuses = [
     'Nuova',
@@ -403,9 +494,9 @@ app.patch('/api/requests/:id', (req, res) => {
     UPDATE requests
     SET status = ?
     WHERE id = ?
-  `).run(status, id)   
+  `).run(status, id)   //Modifica la tabella requests e cambia lo status della richiesta con questo ID.
 
-  if (result.changes === 0) {   
+  if (result.changes === 0) {   //se le righe che sono state modificate sono 0
     return res.status(404).json({
       error: 'Richiesta non trovata'
     })
@@ -415,9 +506,9 @@ app.patch('/api/requests/:id', (req, res) => {
   const updatedRequest = db.prepare(`
     SELECT * FROM requests
     WHERE id = ?
-  `).get(id)    
+  `).get(id)    //Ora che ho modificato la richiesta, recuperamela dal database.
 
-  res.json(updatedRequest)   
+  res.json(updatedRequest)   //manda al frontend la richiesta aggiornata.
 })
 
 
@@ -426,20 +517,6 @@ app.patch('/api/requests/:id/category', (req, res) => {
 
   const id = req.params.id
   const { category } = req.body
-
-  const validCategories = [
-    'Da classificare',
-    'Licenze',
-    'Infrastrutture',
-    'Consulenze',
-    'Attività di formazione',
-    'Software',
-    'Hardware',
-    'Rete',
-    'Account',
-    'Accesso ai servizi',
-    'Altro'
-  ]
 
   if (!validCategories.includes(category)) {
     return res.status(400).json({
