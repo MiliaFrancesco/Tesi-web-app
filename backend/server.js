@@ -193,70 +193,45 @@ app.post('/api/login', (req, res) => {
 
 
 /*1) REACT INVIA IL FORM (POST) E SI INSERISCONO I DATI NEL DATABASE*/
-app.post('/api/requests',async (req, res) => {
+app.post('/api/requests', async (req, res) => {
   console.log('Dati ricevuti dal frontend:', req.body)
 
   const { title, description, user_id } = req.body
 
   /* VALIDAZIONE DEL TITOLO */
   if (!title || title.trim() === '') {
-    return res.status(400).json({
-      error: 'Il titolo è obbligatorio'
-    })
+    return res.status(400).json({ error: 'Il titolo è obbligatorio' })
   }
-
   if (title.trim().length < 5) {
-    return res.status(400).json({
-      error: 'Il titolo deve contenere almeno 5 caratteri'
-    })
+    return res.status(400).json({ error: 'Il titolo deve contenere almeno 5 caratteri' })
   }
-
   if (title.trim().length > 100) {
-    return res.status(400).json({
-      error: 'Il titolo può contenere massimo 100 caratteri'
-    })
+    return res.status(400).json({ error: 'Il titolo può contenere massimo 100 caratteri' })
   }
 
   /* VALIDAZIONE DELLA DESCRIZIONE */
   if (!description || description.trim() === '') {
-    return res.status(400).json({
-      error: 'La descrizione è obbligatoria'
-    })
+    return res.status(400).json({ error: 'La descrizione è obbligatoria' })
   }
-
   if (description.trim().length < 10) {
-    return res.status(400).json({
-      error: 'La descrizione deve contenere almeno 10 caratteri'
-    })
+    return res.status(400).json({ error: 'La descrizione deve contenere almeno 10 caratteri' })
   }
-
   if (description.trim().length > 500) {
-    return res.status(400).json({
-      error: 'La descrizione può contenere massimo 500 caratteri'
-    })
+    return res.status(400).json({ error: 'La descrizione può contenere massimo 500 caratteri' })
   }
 
   if (!user_id) {
-  return res.status(401).json({
-    error: 'Utente non autenticato'
-  })
-}
+    return res.status(401).json({ error: 'Utente non autenticato' })
+  }
 
-/* VALORI AUTOMATICI */
-const status = 'Nuova'
-
+  /* VALORI AUTOMATICI */
+  const status = 'Nuova'
+  
 /* CLASSIFICAZIONE CON LLM */
-const prompt = `
-Devi classificare una richiesta di servizio digitale.
+  const prompt = `
+Sei un classificatore automatico di ticket IT.
 
-Titolo:
-${title}
-
-Descrizione:
-${description}
-
-Scegli una sola categoria tra queste:
-
+Scegli la categoria esatta tra queste:
 - Licenze
 - Infrastrutture
 - Consulenze
@@ -267,79 +242,87 @@ Scegli una sola categoria tra queste:
 - Account
 - Accesso ai servizi
 - Altro
+- Da classificare
 
-Rispondi solamente con il nome della categoria.
-Non aggiungere spiegazioni.
+REGOLE TASSATIVE:
+1. Se il testo parla di mouse, tastiere, monitor o componenti fisici, usa "Hardware".
+2. Se il testo è vago (es. "Aiuto", "Non funziona niente", "Urgente"), usa ESCLUSIVAMENTE "Da classificare".
+3. Devi rispondere SOLO ed ESCLUSIVAMENTE con un oggetto JSON che contiene la chiave "category". Nessun altro campo è ammesso.
+
+ESEMPIO DI RISPOSTA ATTESA:
+{
+  "category": "Hardware"
+}
+
+Richiesta da analizzare:
+Titolo: ${title}
+Descrizione: ${description}
 `
 
-let category
+  let category = 'Da classificare'
 
-try {
-
-  const response = await fetch('http://localhost:11434/api/generate', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      model: 'llama3.2:3b',
-      prompt: prompt,
-      stream: false
+  try {
+    const response = await fetch('http://localhost:11434/api/generate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'llama3.2:3b',
+        prompt: prompt,
+        format: 'json', // Forzo Ollama a rispondere ESCLUSIVAMENTE con un oggetto JSON
+        stream: false
+      })
     })
-  })
 
-  if (!response.ok) {
-    return res.status(500).json({
-      error: 'Errore nella comunicazione con il modello LLM'
-    })
+    if (!response.ok) {
+      console.error('Errore nella risposta HTTP da Ollama')
+      return res.status(500).json({ error: 'Errore nella comunicazione con il modello LLM' })
+    }
+
+    const data = await response.json()
+    console.log('Risposta grezza LLM (JSON string):', data.response)
+
+    // Parsing della risposta JSON dell'LLM
+    const parsedResponse = JSON.parse(data.response)
+    const suggestedCategory = parsedResponse.category || parsedResponse.categoria
+
+    // Verifica se la categoria suggerita è tra quelle ammesse
+    if (suggestedCategory && validCategories.includes(suggestedCategory)) {
+      category = suggestedCategory
+    } else {
+      console.warn(`Categoria non riconosciuta o fuori elenco ("${suggestedCategory}"). Assegnato "Da classificare".`)
+      category = 'Da classificare'
+    }
+
+    console.log('Categoria finale assegnata:', category)
+
+  } catch (error) {
+    console.error('Errore Ollama/Parsing:', error)
+    return res.status(500).json({ error: 'Impossibile utilizzare il modello LLM' })
   }
 
-  const data = await response.json()
+  /* SALVIAMO LA RICHIESTA NEL DATABASE */
+  const result = insertRequest.run(
+    title,
+    description,
+    status,
+    category,
+    user_id
+  )
 
-  category = data.response.trim()
-
-  category = category.replace('.', '')
-
-  if (!validCategories.includes(category)) {
-    category = 'Altro'
+  const newRequest = {
+    id: result.lastInsertRowid,
+    title,
+    description,
+    status,
+    category,
+    user_id
   }
 
-  console.log('Categoria suggerita dall\'LLM:', category)
-
-} catch (error) {
-
-  console.error('Errore Ollama:', error)
-
-  return res.status(500).json({
-    error: 'Impossibile utilizzare il modello LLM'
-  })
-}
-
-/* SALVIAMO LA RICHIESTA NEL DATABASE */
-
-const result = insertRequest.run(
-  title,
-  description,
-  status,
-  category,
-  user_id
-)
-
-const newRequest = {
-  id: result.lastInsertRowid,
-  title,
-  description,
-  status,
-  category,
-  user_id
-}
-
-console.log('Nuova richiesta salvata:', newRequest)
-
-res.json(newRequest)
+  console.log('Nuova richiesta salvata nel DB:', newRequest)
+  res.json(newRequest)
 })
-
-
 
 /*2) GET RITORNA TUTTE LE RICHIESTE PRESENTI IN TABELLA REQUESTS */
 app.get('/api/requests', (req, res) => {
