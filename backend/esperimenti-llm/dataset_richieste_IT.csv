@@ -1,0 +1,111 @@
+titolo,descrizione,categoria_reale
+Scadenza password,Il sistema dice che la password scadrà oggi ma non riesco a cambiarla.,Account
+Server di test inattivo,Il server linux-test-01 non risponde al ping da stamattina.,Infrastrutture
+Upgrade licenza JetBrains,"Ho bisogno della versione Ultimate di IntelliJ, la mia è scesa a community.",Licenze
+Permessi admin su Jira,Mi servono i diritti di amministratore di progetto per creare nuovi workflow.,Accesso ai servizi
+Configurazione switch VLAN,Necessaria configurazione porta 5 dello switch per VLAN ospiti.,Rete
+Nessuna connessione LAN,Il PC dice 'Cavo di rete scollegato' ma è attaccato.,Rete
+Corso su Kubernetes,Sarebbe utile organizzare un corso base su Docker e Kubernetes per i dev.,Attività di formazione
+Aggiornamento Windows fallito,L'ultimo aggiornamento di Windows 11 continua a dare errore.,Software
+Spedizione materiale,"Devo mandare un portatile a un collega a Milano, come procedo?",Altro
+UPS sala server in allarme,L'UPS del rack principale emette un suono continuo.,Infrastrutture
+Sblocco account SAP,Il mio utente SAP risulta disabilitato per inattività.,Account
+Accesso a GitHub,Chiedo di essere aggiunto all'organizzazione GitHub aziendale.,Accesso ai servizi
+Rinnovo licenza AutoCAD,"La mia licenza scade tra 3 giorni, potete rinnovarla?",Licenze
+Permessi cartella condivisa,Mi serve l'accesso in scrittura alla cartella 'Progetti 2026'.,Accesso ai servizi
+Problema alimentazione switch,Lo switch di core al secondo piano si è riavviato da solo.,Infrastrutture
+Reset password,Ho dimenticato la password di accesso al dominio aziendale.,Account
+Stampante inceppata,La stampante laser al primo piano ha un foglio incastrato.,Hardware
+Creazione nuovo utente,"Dovrebbe entrare una nuova risorsa lunedì, serve creare la sua mail.",Account
+Test,"Test inserimento richiesta, ignorare.",Da classificare
+Chrome è molto lento,Il browser consuma troppa memoria e il PC si blocca.,Software
+Aggiunta RAM al server DB,Dobbiamo espandere la memoria del server database di produzione.,Infrastrutture
+Training su AWS,Corso per preparare il team alla certificazione AWS Cloud Practitioner.,Attività di formazione
+Cavo di rete rotto,Il cavo Ethernet sotto la mia scrivania ha la linguetta rotta.,Rete
+Design pattern,Richiesta supporto per implementare un'architettura a microservizi.,Consulenze
+Scelta framework frontend,Vorremmo organizzare un meeting per decidere se usare React o Angular nel nuovo progetto.,Consulenze
+Formazione sicurezza informatica,Sessione obbligatoria sul phishing per i nuovi assunti.,Attività di formazione
+Problema sincronizzazione OneDrive,I file locali non vengono caricati sul cloud da due giorni.,Software
+Recupero credenziali portale HR,Non ricordo come accedere alla piattaforma per le buste paga.,Account
+Sostituzione disco RAID,Un disco nel server NAS02 è in stato di degraded.,Infrastrutture
+Teams non rileva il microfono,Non riesco a far funzionare l'audio durante le chiamate su Microsoft Teams.,Software
+Sblocco chiavette USB,Richiesta eccezione policy per poter usare memorie USB per trasferimento dati.,Accesso ai servizi
+Richiesta badge smarrito,Ho perso il badge per entrare in ufficio.,Altro
+Licenza software statistico,Richiesta licenza per SPSS per il dipartimento di ricerca.,Licenze
+Utilizzo nuovo gestionale,Serve una sessione di training per il reparto HR sul nuovo software Zucchetti.,Attività di formazione
+Cavo HDMI mancante,Nella sala riunioni B manca il cavo per collegare il PC alla TV.,Hardware
+Problema risoluzione DNS,"Non riesco ad aprire i siti intranet, errore DNS_PROBE_FINISHED.",Rete
+Piano di disaster recovery,Dobbiamo stilare un piano di backup e ripristino per il nuovo dipartimento.,Consulenze
+Excel si blocca,Ogni volta che apro un file macro specifico Excel smette di funzionare.,Software
+Rinnovo abbonamento Zoom,L'abbonamento pro per il mio team sta per scadere.,Licenze
+Batteria portatile gonfia,"Il mio laptop HP si è deformato sotto, la batteria sembra gonfia.",Hardware
+Impossibile raggiungere il NAS,Non riesco ad accedere alla cartella condivisa di rete Z:.,Rete
+Formazione su AI generativa,Come usare in modo sicuro ChatGPT e Copilot in azienda.,Attività di formazione
+Formazione primo soccorso IT,Corso base su come risolvere i problemi PC più comuni.,Attività di formazione
+Installazione nuovo rack,C'è da cablare il nuovo rack arrivato ieri al piano terra.,Infrastrutture
+Richiesta,Come d'accordo telefonico procedere.,Da classificare
+Corso Python per data analysis,Il team marketing vorrebbe imparare a usare Pandas e Python.,Attività di formazione
+Indirizzo IP duplicato,Windows mi segnala un conflitto di indirizzi IP sulla rete.,Rete
+Scadenza licenza antivirus,L'antivirus aziendale segnala che la licenza è scaduta.,Licenze
+Adobe Reader non stampa,Quando provo a stampare un PDF il programma si chiude da solo.,Software
+Accesso bloccato dal firewall,Il firewall aziendale blocca l'accesso al portale dei fornitori.,Rete
+Modifica nome cognome,A seguito di matrimonio chiedo la modifica del cognome sulla mail.,Account
+Scelta database NoSQL,Mongo o Cassandra? Abbiamo bisogno di capire quale fa al caso nostro.,Consulenze
+Smaltimento vecchi server,Richiesta ritiro e smaltimento per i server HP dismessi.,Infrastrutture
+Permessi SharePoint,Aggiungermi al sito SharePoint delle Risorse Umane.,Accesso ai servizi
+Macchinetta caffè non va,La macchinetta dell'area break non eroga bicchieri.,Altro
+Integrazione API esterne,Come possiamo integrare al meglio le API di Google Maps nel gestionale?,Consulenze
+Aggiunta utente licenza Jira,Dovremmo aggiungere 5 utenti al nostro piano Jira Software.,Licenze
+Problema computer,Il pc fa i capricci.,Da classificare
+SAP GUI non si avvia,L'icona di SAP sul desktop non fa nulla quando ci clicco sopra.,Software
+Condizionatore sala macchine rotto,La temperatura nella stanza server è troppo alta.,Infrastrutture
+Alias email,Richiesta creazione alias info@... associato alla mia casella.,Account
+Supporto per GDPR,Serve una consulenza per anonimizzare i dati nel database di test.,Consulenze
+Licenza Adobe Creative Cloud,Richiedo l'assegnazione di una licenza per Photoshop e Illustrator.,Licenze
+Migrazione VM,Spostare le macchine virtuali dal nodo 1 al nodo 2 per manutenzione.,Infrastrutture
+Lezione su Git,"Molti junior hanno problemi con i merge conflict, serve un corso.",Attività di formazione
+Accesso a Google Analytics,Il team SEO ha bisogno di visualizzare le statistiche del sito.,Accesso ai servizi
+Licenza Visual Studio,Potete fornirmi una licenza per VS Enterprise?,Licenze
+Non va,Schermo nero.,Da classificare
+Ritiro pacco in reception,"Ho un pacco ingombrante fermo giù, potete portarlo al secondo piano?",Altro
+Sedia rotta,La mia sedia da ufficio ha una ruota rotta.,Altro
+Richiesta secondo monitor,Per questioni di produttività avrei bisogno di un secondo schermo.,Hardware
+Sostituzione mouse,La rotellina del mio mouse si è incastrata e non scorre più.,Hardware
+Richiesta cancelleria,Sono finiti i blocchi note e le penne blu nel magazzino.,Altro
+Client VPN non si connette,Cisco AnyConnect rimane su 'Connecting' all'infinito.,Software
+Accesso ambiente di staging,Richiesta credenziali per testare l'app sull'ambiente di pre-produzione.,Accesso ai servizi
+Internet lento,La navigazione oggi è estremamente lenta per tutti nel mio ufficio.,Rete
+Cosa devo fare?,"Mi è apparsa una finestra e ho chiuso, ora non so che fare.",Da classificare
+Aiuto,"Non funziona niente, fate presto.",Da classificare
+Errore applicativo fatture,Il programma di fatturazione restituisce Errore 500 al momento del salvataggio.,Software
+Webcam non rilevata,Il computer non riconosce la webcam USB collegata.,Hardware
+Outlook non riceve posta,Le email in arrivo sono bloccate a ieri sera.,Software
+Pulizia ufficio,Richiesta passaggio extra impresa di pulizie per liquidi versati.,Altro
+PC desktop rumoroso,La ventola del mio computer fa un rumore fortissimo da stamattina.,Hardware
+Cambio dipartimento,"Sono passato alle vendite, potete aggiornare i miei dati in Active Directory?",Account
+Corso di aggiornamento React,Richiesta workshop pratico sulle nuove funzionalità di React 18.,Attività di formazione
+Urgente!!!,Chiamatemi subito al cellulare.,Da classificare
+Sostituzione alimentatore,"L'alimentatore del mio portatile si è bruciato, non carica più.",Hardware
+Cadute di connessione VPN,Lavorando da casa la VPN cade ogni 10 minuti.,Rete
+Controllo,Potete controllare il mio pc?,Da classificare
+Workshop metodologie Agile,Corso introduttivo su Scrum e Jira per i project manager.,Attività di formazione
+Supporto accessibilità,Come rendere l'applicazione web conforme agli standard WCAG?,Consulenze
+Prenotazione auto aziendale,Vorrei capire la procedura per prenotare un'auto per una trasferta.,Altro
+Acquisto nuova licenza Office,Mi serve una licenza Office 365 per il nuovo stagista.,Licenze
+Tastiera con tasti rotti,La barra spaziatrice e la lettera 'E' non funzionano bene.,Hardware
+Ottimizzazione query SQL,"Le query del nuovo applicativo sono lente, serve supporto.",Consulenze
+Chiave Windows non valida,All'avvio mi dice che la licenza di Windows è scaduta.,Licenze
+Valutazione sicurezza app,Richiesta di code review e vulnerability assessment per l'app mobile.,Consulenze
+Accesso AWS Console,Necessario accesso read-only ai servizi S3 e EC2.,Accesso ai servizi
+Allarme suonato stanotte,Volevo segnalare che l'allarme ha suonato senza motivo alle 3 di notte.,Altro
+Disattivazione utente dimissionario,"Il dipendente Mario Rossi ha lasciato l'azienda, disabilitare account.",Account
+Abilitazione portale fornitori,Richiesta utenza per inserire gli ordini d'acquisto.,Accesso ai servizi
+Abilitazione VPN,"Lavorerò in smart working, mi serve l'autorizzazione per la VPN.",Accesso ai servizi
+Informazione,Vorrei un'informazione dal tecnico.,Da classificare
+Architettura cloud,Avremmo bisogno di un parere su come migrare il nostro DB su AWS.,Consulenze
+Wi-Fi sala riunioni,La connessione wireless nella sala meeting principale è assente.,Rete
+Account bloccato,Ho inserito la password errata tre volte e ora l'account è lockato.,Account
+Spegnimento server programmato,Richiesta di spegnimento del server legacy venerdì alle 18:00.,Infrastrutture
+Luce fulminata,"Il neon sopra la mia postazione sfarfalla, fa venire mal di testa.",Altro
+Monitor sfarfalla,Il secondo schermo collegato alla dock station sfarfalla continuamente.,Hardware
+Errore,Mi dà un errore strano quando clicco ok.,Da classificare
