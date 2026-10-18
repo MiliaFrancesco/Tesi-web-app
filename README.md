@@ -17,6 +17,35 @@ La piattaforma è un'applicazione web Full-Stack progettata per la gestione dell
 - **Gestione Ruoli (RBAC):** Interfaccia adattiva per Utente Standard (creazione e visualizzazione delle proprie richiestet) e Amministratore (gestione avanzata, cambio stato, riclassificazione ed eliminazione).
 - **Valutazione Scientifica:** Suite di test automatizzata per la misurazione di **Accuracy**, **Precision**, **Recall**, **Macro-F1 Score** e generazione della **Matrice di Confusione**.
 
+
+---
+
+## Risultati Sperimentali e Valutazione Modello
+
+La valutazione quantitativa del classificatore automatizzato (**Llama 3.2 3B**) è stata condotta su un dataset di benchmark di **110 richieste IT reali**, confrontando le predizioni del modello con la *Ground Truth*.
+
+### Configurazione di Produzione (`temperature: 0.0` + Structured JSON)
+- **Accuracy Complessiva:** `65.45%` (72/110 richieste corrette)
+- **Macro-F1 Score:** `0.6367`
+- **Errori di Sintassi/Formato (`NON_VALIDA`):** `0` (100% di conformità allo schema JSON)
+
+### Dettaglio Metriche per Categoria
+
+| Categoria | Precision | Recall | F1-Score |
+| :--- | :---: | :---: | :---: |
+| **Account** | 0.90 | 0.90 | **0.90** |
+| **Attività di formazione** | 1.00 | 0.80 | **0.89** |
+| **Infrastrutture** | 0.67 | 0.80 | **0.73** |
+| **Licenze** | 0.56 | 1.00 | **0.71** |
+| **Hardware** | 0.53 | 1.00 | **0.69** |
+| **Consulenze** | 0.64 | 0.70 | **0.67** |
+| **Rete** | 1.00 | 0.50 | **0.67** |
+| **Da classificare** | 0.71 | 0.50 | **0.59** |
+| **Accesso ai servizi** | 0.42 | 0.50 | **0.45** |
+| **Altro** | 0.60 | 0.30 | **0.40** |
+| **Software** | 0.67 | 0.20 | **0.31** |
+
+
 ---
 
 ## Architettura e Stack Tecnologico
@@ -38,7 +67,7 @@ La piattaforma è un'applicazione web Full-Stack progettata per la gestione dell
 │   │   ├── dataset_richieste_IT.csv   # Dataset di 110 richieste con Ground Truth
 │   │   └── run_experiments.js         # Script per il calcolo delle metriche e della Matrice di Confusione
 │   ├── server.js                      # Server Express.js e integrazione API Ollama
-│   ├── database.db                    # Database SQLite 
+│   ├── database.db                    # Database SQLite (generato automaticamente)
 │   └── package.json
 ├── react-prova/                       # Codice sorgente del Frontend React
 │   ├── src/
