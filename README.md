@@ -67,7 +67,7 @@ La valutazione quantitativa del classificatore automatizzato (**Llama 3.2 3B**) 
 │   │   ├── dataset_richieste_IT.csv   # Dataset di 110 richieste con Ground Truth
 │   │   └── run_experiments.js         # Script per il calcolo delle metriche e della Matrice di Confusione
 │   ├── server.js                      # Server Express.js e integrazione API Ollama
-│   ├── database.db                    # Database SQLite (generato automaticamente)
+│   ├── database.db                    # Database SQLite
 │   └── package.json
 ├── react-prova/                       # Codice sorgente del Frontend React
 │   ├── src/
